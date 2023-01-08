@@ -2,15 +2,12 @@ package com.ernestmicklei;
 
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
+import javax.swing.text.TextAction;
+import java.awt.event.ActionEvent;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import javax.swing.*;
-import javax.swing.text.*;
 
 public class EvalAction extends TextAction {
 
@@ -20,6 +17,7 @@ public class EvalAction extends TextAction {
         super("Do It");
         this._textArea = textArea;
     }
+
     public void actionPerformed(ActionEvent e) {
         System.out.println(this._textArea.getSelectedText());
 
@@ -34,7 +32,8 @@ public class EvalAction extends TextAction {
                 .thenAccept(this::handleEvalResponse)
                 .join();
     }
+
     private void handleEvalResponse(String json) {
-        new SimonUI().setVisible(true);
+        new Inspector().setVisible(true);
     }
 }
