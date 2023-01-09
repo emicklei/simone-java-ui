@@ -1,9 +1,5 @@
 package com.ernestmicklei;
 
-import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
-import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
-import org.fife.ui.rtextarea.RTextScrollPane;
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -12,18 +8,18 @@ public class Inspector extends JFrame {
     public Inspector() {
         JPanel cp = new JPanel(new BorderLayout());
 
-        RSyntaxTextArea textArea = new RSyntaxTextArea(20, 60);
-        textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_ACTIONSCRIPT);
-        textArea.setCodeFoldingEnabled(true);
-        RTextScrollPane sp = new RTextScrollPane(textArea);
-        textArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 16));
+        String[] columnNames = {"Name", "Age", "Student"};
 
-        JPopupMenu popup = textArea.getPopupMenu();
-        popup.add(new JMenuItem(new EvalAction(textArea)), 0);
-        popup.add(new JMenuItem(new InspectAction(textArea)), 1);
-        popup.add(new JPopupMenu.Separator(), 2);
+        Object[][] data = {
+                {"Ken", new Integer(5), new Boolean(false)},
+                {"Tom", new Integer(3), new Boolean(true)},
+                {"Susam", new Integer(2), new Boolean(false)},
+                {"Mark", new Integer(20), new Boolean(true)},
+                {"Joe", new Integer(10), new Boolean(false)}
+        };
+        JTable table = new JTable(data, columnNames);
 
-        cp.add(sp);
+        cp.add(table);
 
         setContentPane(cp);
         setTitle("Simone - Inspector");

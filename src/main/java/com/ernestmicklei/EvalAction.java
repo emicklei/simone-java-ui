@@ -34,6 +34,8 @@ public class EvalAction extends TextAction {
     }
 
     private void handleEvalResponse(String json) {
+        EvalResult r = new EvalResult(json);
+        System.out.println(r.parsedData());
         new Inspector().setVisible(true);
     }
 }
