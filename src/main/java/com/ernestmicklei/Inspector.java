@@ -8,14 +8,12 @@ public class Inspector extends JFrame {
     public Inspector() {
         JPanel cp = new JPanel(new BorderLayout());
 
-        String[] columnNames = {"Name", "Age", "Student"};
+        // String[] columnNames = {"Name", "Age", "Student"};
+        String[] columnNames = {"Name", "Value"};
 
         Object[][] data = {
-                {"Ken", new Integer(5), new Boolean(false)},
-                {"Tom", new Integer(3), new Boolean(true)},
-                {"Susam", new Integer(2), new Boolean(false)},
-                {"Mark", new Integer(20), new Boolean(true)},
-                {"Joe", new Integer(10), new Boolean(false)}
+                {"Ken", 5},
+                {"joe", 12.1234},
         };
         JTable table = new JTable(data, columnNames);
 

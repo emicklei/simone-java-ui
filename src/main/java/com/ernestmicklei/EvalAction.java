@@ -19,10 +19,12 @@ public class EvalAction extends TextAction {
     }
 
     public void actionPerformed(ActionEvent e) {
-        System.out.println(this._textArea.getSelectedText());
-
+        String entry = this._textArea.getSelectedText();
+        if (entry == null || entry.isEmpty()) {
+            return;
+        }
         HttpClient client = HttpClient.newHttpClient();
-        HttpRequest.BodyPublisher bp = HttpRequest.BodyPublishers.ofString(this._textArea.getSelectedText());
+        HttpRequest.BodyPublisher bp = HttpRequest.BodyPublishers.ofString(entry);
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("http://localhost:9119/v1?action=eval"))
                 .POST(bp)
