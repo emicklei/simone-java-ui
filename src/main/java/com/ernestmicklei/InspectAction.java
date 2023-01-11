@@ -38,7 +38,6 @@ public class InspectAction extends TextAction {
     private void handleEvalResponse(String json) {
         System.out.println(json);
         InspectResult r = new InspectResult(json);
-        System.out.println(r);
-        new Inspector().setVisible(true);
+        new Inspector(r).setVisible(true);
     }
 }
