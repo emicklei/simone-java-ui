@@ -32,7 +32,13 @@ public class EvalAction extends TextAction {
         client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
                 .thenApply(HttpResponse::body)
                 .thenAccept(this::handleEvalResponse)
+                .exceptionally(this::handlError)
                 .join();
+    }
+
+    private Void handlError(Throwable ex) {
+        System.out.println(ex.toString());
+        return null;
     }
 
     private void handleEvalResponse(String json) {
