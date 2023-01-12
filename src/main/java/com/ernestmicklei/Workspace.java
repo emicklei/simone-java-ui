@@ -6,6 +6,8 @@ import org.fife.ui.rtextarea.RTextScrollPane;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.InputEvent;
 
 public class Workspace extends JFrame {
     public Workspace() {
@@ -19,7 +21,9 @@ public class Workspace extends JFrame {
 
         JPopupMenu popup = textArea.getPopupMenu();
         popup.add(new JMenuItem(new EvalAction(textArea)), 0);
-        popup.add(new JMenuItem(new InspectAction(textArea)), 1);
+        JMenuItem inspectItem = new JMenuItem(new InspectAction(textArea));
+        inspectItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, InputEvent.CTRL_DOWN_MASK));
+        popup.add(inspectItem, 1);
         popup.add(new JPopupMenu.Separator(), 2);
 
         cp.add(sp);

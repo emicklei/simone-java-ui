@@ -33,15 +33,18 @@ public class Inspector extends JFrame {
         }
         String[] columnNames = { "Name", "Value" };
         JTable table = new JTable(data, columnNames);
-        table.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 16));
+        table.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 14));
         table.setColumnSelectionAllowed(true);
+        table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        table.getColumnModel().getColumn(0).setMinWidth(100);
+        table.getColumnModel().getColumn(0).setMaxWidth(100);
 
-        cp.setBorder(new EmptyBorder(4, 4, 4, 4));
+        cp.setBorder(new EmptyBorder(2, 2, 2, 2));
         cp.add(table);
 
         setContentPane(cp);
         setTitle("Simone - Inspector");
-        setMinimumSize(new Dimension(200, 300));
+        // setMinimumSize(new Dimension(200, 300));
         pack();
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
