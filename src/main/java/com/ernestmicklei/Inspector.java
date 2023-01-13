@@ -40,13 +40,14 @@ public class Inspector extends JFrame {
         table.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 14));
         table.setColumnSelectionAllowed(true);
         //table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-        table.getColumnModel().getColumn(0).setMinWidth(100);
-        table.getColumnModel().getColumn(0).setMaxWidth(100);
+        table.getColumnModel().getColumn(0).setMinWidth(200);
+        table.getColumnModel().getColumn(0).setMaxWidth(200);
 
         cp.setBorder(new EmptyBorder(2, 2, 2, 2));
         cp.add(table);
 
         setContentPane(cp);
+        setMinimumSize(new Dimension(600,keys.length * 16));
         setTitle(result.datatype + " - Inspector");
         pack();
         setLocationRelativeTo(null);
