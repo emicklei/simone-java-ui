@@ -16,6 +16,10 @@ public class Inspector extends JFrame {
             // TODO show dialog
             return;
         }
+        if (result.object.isEmpty()) {
+            // TODO show dialog or flash msg
+            return;
+        }
         String[] keys = new String[result.object.size()];
         int row = 0;
         for (Iterator<String> it = result.object.keySet().iterator(); it.hasNext();) {
@@ -35,7 +39,7 @@ public class Inspector extends JFrame {
         JTable table = new JTable(data, columnNames);
         table.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 14));
         table.setColumnSelectionAllowed(true);
-        table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        //table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         table.getColumnModel().getColumn(0).setMinWidth(100);
         table.getColumnModel().getColumn(0).setMaxWidth(100);
 
@@ -43,8 +47,7 @@ public class Inspector extends JFrame {
         cp.add(table);
 
         setContentPane(cp);
-        setTitle("Simone - Inspector");
-        // setMinimumSize(new Dimension(200, 300));
+        setTitle(result.datatype + " - Inspector");
         pack();
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

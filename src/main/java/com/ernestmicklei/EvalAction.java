@@ -42,7 +42,11 @@ public class EvalAction extends TextAction {
     }
 
     private void handleEvalResponse(String json) {
-        //EvalResult r = new EvalResult(json);
+        EvalResult r = new EvalResult(json);
+        if (r.error != "") {
+            _textArea.append(r.error);
+            // _textArea.select(0, 0);
+        }
         //System.out.println(r.parsedData());
         //new Inspector(r).setVisible(true);
     }
