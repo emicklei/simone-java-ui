@@ -3,6 +3,7 @@ package com.ernestmicklei;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rtextarea.RTextScrollPane;
+import org.fife.ui.autocomplete.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,9 +24,15 @@ public class Workspace extends JFrame {
                 new InspectAction(textArea));
         textArea.getKeymap().addActionForKeyStroke(KeyStroke.getKeyStroke(KeyEvent.VK_D, InputEvent.CTRL_DOWN_MASK),
                 new EvalAction(textArea));
+        // textArea.getKeymap().addActionForKeyStroke(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE,InputEvent.CTRL_DOWN_MASK),
+        //         new AutoCompleteAction(textArea));
+
+        // CompletionProvider provider = createCompletionProvider();
+        // AutoCompletion ac = new AutoCompletion(provider);
+        // ac.install(textArea);
 
         JPopupMenu popup = textArea.getPopupMenu();
-        JMenuItem evalItem = new JMenuItem(new EvalAction(textArea));
+        JMenuItem evalItem = new JMenuItem(new EvalAction(textArea));        
         evalItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D, InputEvent.CTRL_DOWN_MASK));
         popup.add(evalItem, 0);
 
@@ -66,5 +73,14 @@ public class Workspace extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         pack();
         setLocationRelativeTo(null);
+    }
+    private CompletionProvider createCompletionProvider() {
+
+        DefaultCompletionProvider provider = new DefaultCompletionProvider();
+
+        // Add completions for all Java keywords. A BasicCompletion is just
+        // a straightforward word completion.
+        provider.addCompletion(new BasicCompletion(provider, "Func"));
+        return provider;
     }
 }
