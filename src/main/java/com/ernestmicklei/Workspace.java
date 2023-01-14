@@ -22,17 +22,25 @@ public class Workspace extends JFrame {
         textArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 16));
         textArea.getKeymap().addActionForKeyStroke(KeyStroke.getKeyStroke(KeyEvent.VK_Q, InputEvent.CTRL_DOWN_MASK),
                 new InspectAction(textArea));
+        // TODO remove does not seem to work
+        textArea.getKeymap().removeKeyStrokeBinding(KeyStroke.getKeyStroke(KeyEvent.VK_D, InputEvent.CTRL_DOWN_MASK));
         textArea.getKeymap().addActionForKeyStroke(KeyStroke.getKeyStroke(KeyEvent.VK_D, InputEvent.CTRL_DOWN_MASK),
                 new EvalAction(textArea));
-        // textArea.getKeymap().addActionForKeyStroke(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE,InputEvent.CTRL_DOWN_MASK),
-        //         new AutoCompleteAction(textArea));
+        // cmd+e == ctrl+d
+        textArea.getKeymap().addActionForKeyStroke(KeyStroke.getKeyStroke(KeyEvent.VK_E, InputEvent.META_DOWN_MASK),
+                new EvalAction(textArea));
+        textArea.getKeymap().addActionForKeyStroke(
+                KeyStroke.getKeyStroke(KeyEvent.VK_EQUALS, InputEvent.META_DOWN_MASK),
+                new ChangeFontSizeAction(textArea));
+        textArea.getKeymap().addActionForKeyStroke(KeyStroke.getKeyStroke(KeyEvent.VK_MINUS, InputEvent.META_DOWN_MASK),
+                new ChangeFontSizeAction(textArea));
 
         // CompletionProvider provider = createCompletionProvider();
         // AutoCompletion ac = new AutoCompletion(provider);
         // ac.install(textArea);
 
         JPopupMenu popup = textArea.getPopupMenu();
-        JMenuItem evalItem = new JMenuItem(new EvalAction(textArea));        
+        JMenuItem evalItem = new JMenuItem(new EvalAction(textArea));
         evalItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D, InputEvent.CTRL_DOWN_MASK));
         popup.add(evalItem, 0);
 
@@ -74,6 +82,7 @@ public class Workspace extends JFrame {
         pack();
         setLocationRelativeTo(null);
     }
+
     private CompletionProvider createCompletionProvider() {
 
         DefaultCompletionProvider provider = new DefaultCompletionProvider();
