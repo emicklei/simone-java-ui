@@ -4,3 +4,11 @@
 - `ctr + q` inspects selection or the complete line if not selection
 - `cmd + =` increases font
 - `cmd + shift + =` decreases font
+
+## build
+
+    make buildone
+
+## test
+
+    make run

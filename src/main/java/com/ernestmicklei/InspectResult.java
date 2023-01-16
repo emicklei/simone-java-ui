@@ -5,6 +5,7 @@ import java.util.Map;
 
 public class InspectResult {
     String error;
+    boolean is_array;
     Map<String,Object> object;
     String datatype;
 
@@ -14,6 +15,7 @@ public class InspectResult {
         this.error = r.error;
         this.object = r.object;
         this.datatype = r.datatype;
+        this.is_array = r.datatype.startsWith("[]");
     }
 }
 

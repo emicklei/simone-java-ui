@@ -13,7 +13,7 @@ public class InspectAction extends RemoteAction {
     }
 
     void handleResponse(String json) {
-        System.out.println(json);
+        Debug.log("Inspecting JSON", json);
         InspectResult r = new InspectResult(json);
         new Inspector(r).setVisible(true);
     }

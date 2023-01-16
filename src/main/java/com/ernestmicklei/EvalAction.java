@@ -13,6 +13,7 @@ public class EvalAction extends RemoteAction {
     }
 
     void handleResponse(String json) {
+        Debug.log("Evaluated to JSON", json);
         EvalResult r = new EvalResult(json);
         if (r.error != "") {
             int before = _textArea.getCaretPosition();
@@ -20,6 +21,5 @@ public class EvalAction extends RemoteAction {
             int end = before + r.error.length();
             _textArea.select(before, end);
         }
-        _textArea.setVisible(true);
     }
 }
