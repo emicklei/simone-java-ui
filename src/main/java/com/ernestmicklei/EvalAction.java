@@ -20,5 +20,6 @@ public class EvalAction extends RemoteAction {
             int end = before + r.error.length();
             _textArea.select(before, end);
         }
+        _textArea.setVisible(true);
     }
 }

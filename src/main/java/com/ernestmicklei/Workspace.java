@@ -8,6 +8,7 @@ import org.fife.ui.autocomplete.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.awt.event.ActionEvent;
 import java.awt.event.InputEvent;
 
 public class Workspace extends JFrame {
@@ -22,8 +23,6 @@ public class Workspace extends JFrame {
         textArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 16));
         textArea.getKeymap().addActionForKeyStroke(KeyStroke.getKeyStroke(KeyEvent.VK_Q, InputEvent.CTRL_DOWN_MASK),
                 new InspectAction(textArea));
-        // TODO remove does not seem to work
-        textArea.getKeymap().removeKeyStrokeBinding(KeyStroke.getKeyStroke(KeyEvent.VK_D, InputEvent.CTRL_DOWN_MASK));
         textArea.getKeymap().addActionForKeyStroke(KeyStroke.getKeyStroke(KeyEvent.VK_D, InputEvent.CTRL_DOWN_MASK),
                 new EvalAction(textArea));
         // cmd+e == ctrl+d
@@ -62,18 +61,24 @@ public class Workspace extends JFrame {
         menuBar.add(menu);
         {
             JMenuItem menuItem;
-            menuItem = new JMenuItem("Open", KeyEvent.VK_O);
-            // menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_1,
-            // ActionEvent.ALT_MASK));
+            menuItem = new JMenuItem("Open...", KeyEvent.VK_O);
+            menuItem.addActionListener(new OpenFileAction(this));
+            menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O,ActionEvent.META_MASK));
             menu.add(menuItem);
         }
         {
             JMenuItem menuItem;
             menuItem = new JMenuItem("Save", KeyEvent.VK_S);
-            // menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_1,
-            // ActionEvent.ALT_MASK));
+            menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,ActionEvent.META_MASK));
             menu.add(menuItem);
         }
+        menu.add(new JPopupMenu.Separator(), 2);
+        {
+            JMenuItem menuItem;
+            menuItem = new JMenuItem("Save As...", 0);
+            menuItem.addActionListener(new SaveAsFileAction(this));
+            menu.add(menuItem);
+        }        
         setJMenuBar(menuBar);
 
         setContentPane(cp);
