@@ -12,6 +12,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.InputEvent;
 
 public class Workspace extends JFrame {
+
+    String _filename;
+    RSyntaxTextArea _textArea;
+
     public Workspace(String source) {
         JPanel cp = new JPanel(new BorderLayout());
 
@@ -63,22 +67,25 @@ public class Workspace extends JFrame {
             JMenuItem menuItem;
             menuItem = new JMenuItem("Open...", KeyEvent.VK_O);
             menuItem.addActionListener(new OpenFileAction(this));
-            menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O,ActionEvent.META_MASK));
+            menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.META_MASK));
             menu.add(menuItem);
         }
         {
             JMenuItem menuItem;
             menuItem = new JMenuItem("Save", KeyEvent.VK_S);
-            menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,ActionEvent.META_MASK));
+            menuItem.setName("menuitem-save");
+            menuItem.setEnabled(false); 
+            menuItem.addActionListener(new SaveAsFileAction(this,false));
+            menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.META_MASK));
             menu.add(menuItem);
         }
         menu.add(new JPopupMenu.Separator(), 2);
         {
             JMenuItem menuItem;
             menuItem = new JMenuItem("Save As...", 0);
-            menuItem.addActionListener(new SaveAsFileAction(this));
+            menuItem.addActionListener(new SaveAsFileAction(this,true));
             menu.add(menuItem);
-        }        
+        }
         setJMenuBar(menuBar);
 
         setContentPane(cp);
@@ -86,6 +93,7 @@ public class Workspace extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         pack();
         setLocationRelativeTo(null);
+        _textArea = textArea;
     }
 
     private CompletionProvider createCompletionProvider() {
@@ -97,4 +105,26 @@ public class Workspace extends JFrame {
         provider.addCompletion(new BasicCompletion(provider, "Func"));
         return provider;
     }
+
+    public String getFilename() {
+        return _filename == null ? "workspace.sim": _filename;
+    }
+
+    public void setFilename(String name) {
+        _filename = name;
+        this.getJMenuBar().getMenu(0).getItem(1).setEnabled(true);
+    }
+
+    public boolean hasFilename() {
+        return _filename != null && !_filename.isEmpty();
+    }
+    public boolean hasContentChanges() { 
+        return _textArea.canUndo();
+    }
+    public String getContents() {
+        return _textArea.getText();
+    }
+    public void setContents(String source) {
+        _textArea.setText(source);
+    }    
 }

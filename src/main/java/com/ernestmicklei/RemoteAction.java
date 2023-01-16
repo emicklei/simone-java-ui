@@ -23,17 +23,17 @@ public abstract class RemoteAction extends TextAction {
         String entry = this._textArea.getSelectedText();
         if (entry == null || entry.isEmpty()) {
             try {
-                // try select whole line                
+                // try select whole line
                 int from = _textArea.getLineStartOffset(_textArea.getCaretLineNumber());
                 int to = _textArea.getLineEndOffset(_textArea.getCaretLineNumber());
-                _textArea.select(from,to);
+                _textArea.select(from, to);
             } catch (Exception ex) {
                 System.out.println(ex);
                 return;
             }
             // retry
             entry = this._textArea.getSelectedText();
-            System.out.println("entry "+entry);
+            System.out.println("entry " + entry);
             if (entry == null || entry.isEmpty()) {
                 return;
             }
