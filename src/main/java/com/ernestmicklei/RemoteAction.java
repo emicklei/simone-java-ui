@@ -1,13 +1,14 @@
 package com.ernestmicklei;
 
-import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
-import javax.swing.text.TextAction;
 import java.awt.event.ActionEvent;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.Locale;
+
+import javax.swing.text.TextAction;
+
+import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 
 public abstract class RemoteAction extends TextAction {
     protected RSyntaxTextArea _textArea;
@@ -33,7 +34,7 @@ public abstract class RemoteAction extends TextAction {
             }
             // retry
             entry = this._textArea.getSelectedText();
-            System.out.println("entry " + entry);
+            //System.out.println("entry " + entry);
             if (entry == null || entry.isEmpty()) {
                 return;
             }
