@@ -25,13 +25,26 @@ public class Workspace extends JFrame {
         textArea.setCodeFoldingEnabled(true);
         RTextScrollPane sp = new RTextScrollPane(textArea);
         textArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 16));
-        textArea.getKeymap().addActionForKeyStroke(KeyStroke.getKeyStroke(KeyEvent.VK_Q, InputEvent.CTRL_DOWN_MASK),
-                new InspectAction(textArea));
-        textArea.getKeymap().addActionForKeyStroke(KeyStroke.getKeyStroke(KeyEvent.VK_D, InputEvent.CTRL_DOWN_MASK),
-                new EvalAction(textArea));
+
+        KeyStroke ctrlD = KeyStroke.getKeyStroke(KeyEvent.VK_D, InputEvent.CTRL_DOWN_MASK);
+        textArea.getInputMap().put(ctrlD, "doit");
+        KeyStroke ctrlB = KeyStroke.getKeyStroke(KeyEvent.VK_B, InputEvent.CTRL_DOWN_MASK);
+        textArea.getInputMap().put(ctrlB, "browseit");
+        KeyStroke ctrlQ = KeyStroke.getKeyStroke(KeyEvent.VK_Q, InputEvent.CTRL_DOWN_MASK);
+        textArea.getInputMap().put(ctrlB, "inspectit");
+
+        textArea.getActionMap().put("doit",new EvalAction(textArea));
+        textArea.getActionMap().put("browseit",new BrowseAction(textArea));
+        textArea.getActionMap().put("inspectit",new InspectAction(textArea));
+
+        textArea.getKeymap().addActionForKeyStroke(ctrlQ, new InspectAction(textArea));
+        textArea.getKeymap().addActionForKeyStroke(ctrlD, new EvalAction(textArea));
+        textArea.getKeymap().addActionForKeyStroke(ctrlB, new BrowseAction(textArea));
+
         // cmd+e == ctrl+d
         textArea.getKeymap().addActionForKeyStroke(KeyStroke.getKeyStroke(KeyEvent.VK_E, InputEvent.META_DOWN_MASK),
                 new EvalAction(textArea));
+
         textArea.getKeymap().addActionForKeyStroke(
                 KeyStroke.getKeyStroke(KeyEvent.VK_EQUALS, InputEvent.META_DOWN_MASK),
                 new ChangeFontSizeAction(textArea));
@@ -44,13 +57,17 @@ public class Workspace extends JFrame {
 
         JPopupMenu popup = textArea.getPopupMenu();
         JMenuItem evalItem = new JMenuItem(new EvalAction(textArea));
-        evalItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D, InputEvent.CTRL_DOWN_MASK));
+        evalItem.setAccelerator(ctrlD);
         popup.add(evalItem, 0);
 
         JMenuItem inspectItem = new JMenuItem(new InspectAction(textArea));
-        inspectItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, InputEvent.CTRL_DOWN_MASK));
+        inspectItem.setAccelerator(ctrlQ);
         popup.add(inspectItem, 1);
-        popup.add(new JPopupMenu.Separator(), 2);
+
+        JMenuItem browseItem = new JMenuItem(new BrowseAction(textArea));
+        browseItem.setAccelerator(ctrlB);
+        popup.add(browseItem, 2);
+        popup.add(new JPopupMenu.Separator(), 3);
 
         cp.add(sp);
 
@@ -74,8 +91,8 @@ public class Workspace extends JFrame {
             JMenuItem menuItem;
             menuItem = new JMenuItem("Save", KeyEvent.VK_S);
             menuItem.setName("menuitem-save");
-            menuItem.setEnabled(false); 
-            menuItem.addActionListener(new SaveAsFileAction(this,false));
+            menuItem.setEnabled(false);
+            menuItem.addActionListener(new SaveAsFileAction(this, false));
             menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.META_MASK));
             menu.add(menuItem);
         }
@@ -83,7 +100,7 @@ public class Workspace extends JFrame {
         {
             JMenuItem menuItem;
             menuItem = new JMenuItem("Save As...", 0);
-            menuItem.addActionListener(new SaveAsFileAction(this,true));
+            menuItem.addActionListener(new SaveAsFileAction(this, true));
             menu.add(menuItem);
         }
         setJMenuBar(menuBar);
@@ -107,7 +124,7 @@ public class Workspace extends JFrame {
     }
 
     public String getFilename() {
-        return _filename == null ? "workspace.sim": _filename;
+        return _filename == null ? "workspace.sim" : _filename;
     }
 
     public void setFilename(String name) {
@@ -118,13 +135,16 @@ public class Workspace extends JFrame {
     public boolean hasFilename() {
         return _filename != null && !_filename.isEmpty();
     }
-    public boolean hasContentChanges() { 
+
+    public boolean hasContentChanges() {
         return _textArea.canUndo();
     }
+
     public String getContents() {
         return _textArea.getText();
     }
+
     public void setContents(String source) {
         _textArea.setText(source);
-    }    
+    }
 }
